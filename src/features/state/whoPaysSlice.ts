@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ItemNotFoundError, PayerNotFoundError } from '../../app/Errors';
 import { ItemProps } from '../../types/ItemProps';
 import { PayerProps } from '../../types/PayerProps';
 import { LinkPayerToItemPayload } from '../../types/Payloads';
@@ -8,15 +9,15 @@ import { LinkPayerToItemPayload } from '../../types/Payloads';
 export interface WhoPaysState {
   payers: PayerProps[],
   items: ItemProps[],
-  newPayer: PayerProps,
-  newItem: ItemProps,
+  nextPayerId: number,
+  nextItemId: number,
 }
 
 const initialState: WhoPaysState = {
   payers: [],
   items: [],
-  newPayer: {name: '', ammountToPay: 0, linkedItems: []},
-  newItem: {name: '', price: 0, linkedPayers: []},
+  nextPayerId: 0,
+  nextItemId: 0,
 };
 
 
@@ -26,11 +27,16 @@ export const whoPaysSlice = createSlice({
   
   reducers: {
     addPayer: (state, action: PayloadAction<PayerProps>) => {
-      state.payers.push(action.payload);
+      let {id, ...rest} = action.payload;
+      
+      state.payers.push({id: `${state.nextPayerId}`, ...rest});
+      state.nextPayerId++;
     },
 
     addItem: (state, action: PayloadAction<ItemProps>) => {
-      state.items.push(action.payload);
+      let {id, ...rest} = action.payload;
+      state.items.push({id: `${state.nextItemId}`, ...rest});
+      state.nextItemId++;
     },
     
     linkPayerToItem: (state, action: PayloadAction<LinkPayerToItemPayload>) => {
@@ -53,15 +59,23 @@ export const whoPaysSlice = createSlice({
       state.items.splice(indexOfItem, 1, item);
     },
 
-    updateNewPayer: (state, action: PayloadAction<PayerProps>) => {
-      state.newPayer = action.payload;
+    updatePayer: (state, action: PayloadAction<PayerProps>) => {
+      const indexOfPayer = state.payers.findIndex(p => p.id === action.payload.id);
+      if (indexOfPayer === -1) throw new PayerNotFoundError(action.payload.id);
+      state.payers.splice(indexOfPayer, 1, action.payload);
     },
 
-    updateNewItem: (state, action: PayloadAction<ItemProps>) => {
-      state.newItem = action.payload;
-    },
+    updateItem: (state, action: PayloadAction<ItemProps>) => {
+      const indexOfItem = state.items.findIndex(i => i.id === action.payload.id);
+      if (indexOfItem === -1) throw new ItemNotFoundError(action.payload.id);
+      state.items.splice(indexOfItem, 1, action.payload);
+    }
   },
 });
 
-export const { linkPayerToItem, addPayer, addItem, updateNewPayer, updateNewItem } = whoPaysSlice.actions;
+export const { linkPayerToItem, 
+  addPayer, 
+  addItem, 
+  updatePayer,
+  updateItem } = whoPaysSlice.actions;
 export default whoPaysSlice.reducer;

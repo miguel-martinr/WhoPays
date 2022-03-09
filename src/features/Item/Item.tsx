@@ -1,22 +1,21 @@
 import React from 'react'
+import { useAppDispatch } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
+import { updateItem } from '../state/whoPaysSlice';
 
 
 export interface ItemComponentProps {
   item: ItemProps,
-  onChange?: (newValues: ItemProps) => void,
-  readOnly: boolean,
 }
 
-export const Item = ({item, onChange, readOnly}: ItemComponentProps) => {
+export const Item = ({ item }: ItemComponentProps) => {
+  const dispatch = useAppDispatch();
   const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!onChange) return;
-    onChange({ ...item, name: event.target.value });
+    dispatch(updateItem({ ...item, name: event.target.value }));
   }
 
   const onPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!onChange) return;
-    onChange({ ...item, price: parseInt(event.target.value) });
+    dispatch(updateItem({ ...item, price: parseInt(event.target.value) }));
   }
 
   // const onLinkedPayersChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,8 +24,9 @@ export const Item = ({item, onChange, readOnly}: ItemComponentProps) => {
   return (
     <>
     <input type="text" defaultValue={item.name} onChange={onNameChange}/>
-    <input type="number" defaultValue={item.price} onChange={onPriceChange} readOnly={readOnly}/>
+    <input type="number" defaultValue={item.price} onChange={onPriceChange} />
     <button>Link payer</button>
     </>
   )
 }
+

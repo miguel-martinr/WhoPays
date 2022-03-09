@@ -1,26 +1,29 @@
 import React from 'react'
-import { PayerProps } from '../../types/PayerProps'
+import { PayerNotFoundError } from '../../app/Errors';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { PayerProps } from '../../types/PayerProps';
+import { updatePayer } from '../state/whoPaysSlice';
 
 export interface PayerComponentProps {
   payer: PayerProps,
-  onChange?: (newValues: PayerProps) => void,
-  readOnlyPays: boolean,
-  readOnlyName: boolean,
 }
 
-export const Payer = ({payer, onChange, readOnlyPays, readOnlyName}: PayerComponentProps) => {
-  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!onChange) return;
-    onChange({ ...payer, name: event.target.value });
-  }
 
-  // const onLinkedItemsChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   onChange({ ...payer, linkedItems: []});
-  // }
+export const Payer = ({ payer }: PayerComponentProps) => {
+
+  const dispatch = useAppDispatch();
+  const payerInStore = useAppSelector(({ WhoPays }) => WhoPays.payers.find(p => p.id === payer.id));
+
+  if (!payerInStore) throw new PayerNotFoundError(payer.id);
+
+  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(updatePayer({ ...payerInStore, name: event.target.value }));
+  };
+
   return (
     <>
-    <input type="text" defaultValue={payer.name} onChange={onNameChange} readOnly={readOnlyName}/>
-    <input type="number" defaultValue={payer.ammountToPay} readOnly={readOnlyPays}/>
+    <input type="text" defaultValue={payer.name} onChange={onNameChange}/>
+    <input type="number" defaultValue={payer.ammountToPay}/>
     <button>Link item</button>
     </>
   )
