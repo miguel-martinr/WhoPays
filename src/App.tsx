@@ -11,29 +11,31 @@ import { AddButton } from './features/Utils';
 function App() {
 
   const dispatch = useAppDispatch();
-  
-  const defaultPayerProps = { name: '', ammountToPay: 0, linkedItems: [], id: 'EMPTY_PAYER'};
-  const defaultItemProps = { name: '', price: 0, linkedPayers: [], id: 'EMPTY_ITEM'};
-  
+
+  const defaultPayerProps = { name: '', ammountToPay: 0, linkedItems: [], id: 'EMPTY_PAYER' };
+  const defaultItemProps = { name: '', price: 0, linkedPayers: [], id: 'EMPTY_ITEM' };
+
 
   const addPayerHandler = () => {
-      dispatch(addPayer(defaultPayerProps));
+    dispatch(addPayer(defaultPayerProps));
   }
 
   const addItemHandler = () => {
-      dispatch(addItem(defaultItemProps));
+    dispatch(addItem(defaultItemProps));
   }
-  
+
 
   return (
     <div className="App">
-      <Container>
+      <Container className="mt-2">
         <Row>
           <Col className='text-center'><h1>Who Pays</h1></Col>
         </Row>
 
+        {/* Titles */}
         <Row>
           <Col className='text-center'><h2>Payers</h2></Col>
+          <Col></Col>
           <Col className='text-center'><h2>Items</h2></Col>
         </Row>
 
@@ -46,6 +48,7 @@ function App() {
             />
           </Col>
 
+          <Col></Col>
           {/* Items */}
           <Col className='text-center'>
             <AddButton
@@ -54,18 +57,23 @@ function App() {
           </Col>
         </Row>
 
+        {/* Lists names */}
         <Row className='mt-4'>
+          {/* Payers */}
           <Col>
             <Row>
               <Col className="text-center">Name</Col>
-              <Col>Pays</Col>
+              <Col className="text-center" >Pays</Col>
+              <Col></Col>
             </Row>
           </Col>
 
+          {/* Items */}
           <Col>
             <Row>
+              <Col></Col>
               <Col className="text-center">Name</Col>
-              <Col>Price</Col>
+              <Col className="text-center" >Price</Col>
             </Row>
 
           </Col>
@@ -75,7 +83,7 @@ function App() {
         <Row>
           {/* Payers */}
           <Col className="text-center">
-              <PayersList />
+            <PayersList />
           </Col>
 
           {/* Items */}
