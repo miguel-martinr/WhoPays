@@ -1,4 +1,4 @@
-import { Col, Form, Image, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
 import { updatePayer } from '../state/whoPaysSlice';
 import { AdaptiveButton } from '../Utils/Buttons/AdaptiveButton';
