@@ -1,8 +1,9 @@
-import { Col, Form, Row } from 'react-bootstrap';
+import { Col, Form, Image, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
 import { updatePayer } from '../state/whoPaysSlice';
+import { AdaptiveButton } from '../Utils/Buttons/AdaptiveButton';
 import { NameInput } from '../Utils/NameInput';
-
+import { BsLink } from 'react-icons/bs';
 
 export interface PayerComponentProps {
   payer: PayerProps,
@@ -10,6 +11,7 @@ export interface PayerComponentProps {
 
 
 export const Payer = ({ payer }: PayerComponentProps) => {
+
 
   return (
     <Row className="me-5">
@@ -22,7 +24,11 @@ export const Payer = ({ payer }: PayerComponentProps) => {
         </Col>
       </NameInput>
       <Col>
-        <button>Link Item</button>
+        <AdaptiveButton 
+          
+          contentWhenSM={<BsLink size={20}/>} 
+          contentWhenLG='Link payer'
+        />
       </Col>
     </Row>
   )
