@@ -40,7 +40,7 @@ function App() {
         </Row>
 
         {/* Buttons */}
-        <Row><Form.Control size="sm" type="text" placeholder="Small text" />
+        <Row>
           {/* Payers */}
           <Col className='text-center'>
             <AddButton
