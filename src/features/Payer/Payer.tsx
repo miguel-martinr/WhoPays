@@ -1,8 +1,8 @@
-import React from 'react'
-import { PayerNotFoundError } from '../../app/Errors';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { Col, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
 import { updatePayer } from '../state/whoPaysSlice';
+import { NameInput } from '../Utils/NameInput';
+
 
 export interface PayerComponentProps {
   payer: PayerProps,
@@ -11,20 +11,19 @@ export interface PayerComponentProps {
 
 export const Payer = ({ payer }: PayerComponentProps) => {
 
-  const dispatch = useAppDispatch();
-  const payerInStore = useAppSelector(({ WhoPays }) => WhoPays.payers.find(p => p.id === payer.id));
-
-  if (!payerInStore) throw new PayerNotFoundError(payer.id);
-
-  const onNameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updatePayer({ ...payerInStore, name: event.target.value }));
-  };
-
   return (
-    <>
-    <input type="text" defaultValue={payer.name} onChange={onNameChange}/>
-    <input type="number" defaultValue={payer.ammountToPay}/>
-    <button>Link item</button>
-    </>
+    <Row className="me-5">
+      <NameInput
+        itemOrPayer={payer}
+        nameUpdater={updatePayer}
+      >
+        <Col>
+          <input type="number" defaultValue={payer.ammountToPay} readOnly />
+        </Col>
+      </NameInput>
+      <Col>
+        <button>Link Item</button>
+      </Col>
+    </Row>
   )
 }
