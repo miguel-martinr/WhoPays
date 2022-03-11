@@ -1,4 +1,4 @@
-import { Col, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
 import { updatePayer } from '../state/whoPaysSlice';
 import { NameInput } from '../Utils/NameInput';
@@ -18,7 +18,7 @@ export const Payer = ({ payer }: PayerComponentProps) => {
         nameUpdater={updatePayer}
       >
         <Col>
-          <input type="number" defaultValue={payer.ammountToPay} readOnly />
+          <Form.Control type='number' value={payer.ammountToPay} readOnly/>
         </Col>
       </NameInput>
       <Col>
