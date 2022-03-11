@@ -1,4 +1,4 @@
-import { Col, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { useAppDispatch } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
 import { updateItem } from '../state/whoPaysSlice';
@@ -27,7 +27,7 @@ export const Item = ({ item }: ItemComponentProps) => {
         nameUpdater={updateItem}
       >
         <Col>
-          <input type="number" defaultValue={item.price} onChange={onPriceChange} />
+        <Form.Control type='number' value={item.price} onChange={onPriceChange} />
         </Col>
       </NameInput>
 
