@@ -34,9 +34,9 @@ function App() {
 
         {/* Titles */}
         <Row>
-          <Col sm-4 className='text-center'><h2>Payers</h2></Col>
-          <Col sm-4></Col>
-          <Col sm-4 className='text-center'><h2>Items</h2></Col>
+          <Col className='text-center'><h2>Payers</h2></Col>
+          <Col></Col>
+          <Col className='text-center'><h2>Items</h2></Col>
         </Row>
 
         {/* Buttons */}
@@ -48,7 +48,7 @@ function App() {
             />
           </Col>
 
-          <Col sm-4></Col>
+          <Col></Col>
           {/* Items */}
           <Col className='text-center'>
             <AddButton
@@ -62,18 +62,18 @@ function App() {
           {/* Payers */}
           <Col>
             <Row>
-              <Col sm-4 className="text-center">Name</Col>
-              <Col sm-4 className="text-center" >Pays</Col>
-              <Col sm-4></Col>
+              <Col className="text-center">Name</Col>
+              <Col className="text-center" >Pays</Col>
+              <Col></Col>
             </Row>
           </Col>
 
           {/* Items */}
           <Col>
             <Row>
-              <Col sm-4></Col>
-              <Col sm-4 className="text-center">Name</Col>
-              <Col sm-4 className="text-center" >Price</Col>
+              <Col></Col>
+              <Col className="text-center">Name</Col>
+              <Col className="text-center" >Price</Col>
             </Row>
 
           </Col>
