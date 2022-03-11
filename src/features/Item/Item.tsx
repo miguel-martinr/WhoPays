@@ -27,7 +27,7 @@ export const Item = ({ item }: ItemComponentProps) => {
         nameUpdater={updateItem}
       >
         <Col>
-        <Form.Control type='number' value={item.price} onChange={onPriceChange} />
+          <Form.Control type='number' value={item.price} onChange={onPriceChange} />
         </Col>
       </NameInput>
 
