@@ -1,7 +1,7 @@
 import { Col, Form, Row } from 'react-bootstrap';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
-import { updateItem } from '../state/whoPaysSlice';
+import { linkPayerToItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { NameInput } from '../Utils/NameInput';
 
@@ -13,15 +13,32 @@ export interface ItemComponentProps {
 
 export const Item = ({ item }: ItemComponentProps) => {
 
+  const { payerBeingLinkedId } = useAppSelector(({ WhoPays }) => WhoPays);
   const dispatch = useAppDispatch();
   const onPriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    dispatch(updateItem({ ...item, price: parseInt(event.target.value) }));
+    dispatch(updateItem({ ...item, price: parseFloat(event.target.value) }));
+  }
+  const onCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked) {
+      dispatch(linkPayerToItem({ itemId: item.id, payerId: payerBeingLinkedId }));
+    } else {
+      dispatch(unlinkPayerFromItem({ itemId: item.id, payerId: payerBeingLinkedId }));
+    }
   }
   return (
 
     <Row className="ms-5">
       <Col>
-        <LinkButton text='Link payer' variant='success'/>
+        {
+          !payerBeingLinkedId ?
+            // <LinkButton text='Link payer' variant='success' /> :
+            <span className='h5'>{item.linkedPayers.length} payers</span> :
+            <Form.Check
+              type='checkbox'
+              onChange={onCheckboxChange}
+              defaultChecked={item.linkedPayers.includes(payerBeingLinkedId)}
+            />
+        }
       </Col>
       <NameInput
         itemOrPayer={item}

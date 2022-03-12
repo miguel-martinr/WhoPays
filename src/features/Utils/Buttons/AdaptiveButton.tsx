@@ -36,7 +36,7 @@ export const AdaptiveButton = (props: AdaptiveButtonProps) => {
   });
 
   return (
-    <Button className={classes.linkButton} style={style} {...rest}>
+    <Button className={classes.linkButton + ' w-75'} style={style} {...rest}>
       {
         ['xs', 'sm'].includes(BSSize) ? contentWhenSM :
           BSSize === "md" ? contentWhenMD :

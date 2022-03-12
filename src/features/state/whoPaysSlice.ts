@@ -11,6 +11,7 @@ export interface WhoPaysState {
   items: ItemProps[],
   nextPayerId: number,
   nextItemId: number,
+  payerBeingLinkedId: string,
 }
 
 const initialState: WhoPaysState = {
@@ -18,45 +19,67 @@ const initialState: WhoPaysState = {
   items: [],
   nextPayerId: 0,
   nextItemId: 0,
+  payerBeingLinkedId: '',
 };
 
 
 export const whoPaysSlice = createSlice({
   name: 'WhoPays',
   initialState,
-  
+
   reducers: {
     addPayer: (state, action: PayloadAction<PayerProps>) => {
-      let {id, ...rest} = action.payload;
-      
-      state.payers.push({id: `${state.nextPayerId}`, ...rest});
+      let { id, ...rest } = action.payload;
+
+      state.payers.push({ id: `${state.nextPayerId}`, ...rest });
       state.nextPayerId++;
     },
 
     addItem: (state, action: PayloadAction<ItemProps>) => {
-      let {id, ...rest} = action.payload;
-      state.items.push({id: `${state.nextItemId}`, ...rest});
+      let { id, ...rest } = action.payload;
+      state.items.push({ id: `${state.nextItemId}`, ...rest });
       state.nextItemId++;
     },
-    
+
     linkPayerToItem: (state, action: PayloadAction<LinkPayerToItemPayload>) => {
-      const { payerName, itemName } = action.payload;
-      
-      const payer = state.payers.find(p => p.name === payerName);
-      const item = state.items.find(i => i.name === itemName);
+      const { payerId, itemId } = action.payload;
 
-      if (!payer || !item) return;
+      const payer = state.payers.find(p => p.id === payerId);
+      const item = state.items.find(i => i.id === itemId);
 
-      if (item.linkedPayers.includes(payer.name)) return;
-    
-      item.linkedPayers.push(payer.name);
-      payer.linkedItems.push(item.name);
+      if (!payer || !item) return; // Throw errors
 
-      const indexOfPayer = state.payers.findIndex(p => p.name === payer.name);
-      state.payers.splice(indexOfPayer, 1, payer);
+      if (item.linkedPayers.includes(payer.id)) return; // Throw warning
 
-      const indexOfItem = state.items.findIndex(i => i.name === item.name);
-      state.items.splice(indexOfItem, 1, item);
+      item.linkedPayers.push(payerId);
+      payer.linkedItems.push(itemId);
+  
+
+      const indexOfPayer = state.payers.findIndex(p => p.id === payer.id);
+      state.payers[indexOfPayer] = payer;
+
+      const indexOfItem = state.items.findIndex(i => i.id === item.id);
+      state.items[indexOfItem] = item;
+    },
+
+    unlinkPayerFromItem: (state, action: PayloadAction<LinkPayerToItemPayload>) => {
+      const { payerId, itemId } = action.payload;
+
+      const payer = state.payers.find(p => p.id === payerId);
+      const item = state.items.find(i => i.id === itemId);
+
+      if (!payer || !item) return; // Throw errors
+
+      if (!item.linkedPayers.includes(payer.id)) return; // Throw warning
+
+      item.linkedPayers = item.linkedPayers.filter(id => id !== payer.id);
+      payer.linkedItems = payer.linkedItems.filter(id => id !== item.id);
+
+      const indexOfPayer = state.payers.findIndex(p => p.id === payer.id);
+      state.payers[indexOfPayer] = payer;
+
+      const indexOfItem = state.items.findIndex(i => i.id === item.id);
+      state.items[indexOfItem] = item;
     },
 
     updatePayer: (state, action: PayloadAction<PayerProps>) => {
@@ -69,13 +92,21 @@ export const whoPaysSlice = createSlice({
       const indexOfItem = state.items.findIndex(i => i.id === action.payload.id);
       if (indexOfItem === -1) throw new ItemNotFoundError(action.payload.id);
       state.items.splice(indexOfItem, 1, action.payload);
-    }
+    },
+
+    setPayerBeingLinked: (state, action: PayloadAction<string>) => {
+      state.payerBeingLinkedId = action.payload;
+    },
   },
 });
 
-export const { linkPayerToItem, 
-  addPayer, 
-  addItem, 
+export const { linkPayerToItem,
+  addPayer,
+  addItem,
   updatePayer,
-  updateItem } = whoPaysSlice.actions;
+  updateItem,
+  setPayerBeingLinked,
+
+
+  unlinkPayerFromItem } = whoPaysSlice.actions;
 export default whoPaysSlice.reducer;
