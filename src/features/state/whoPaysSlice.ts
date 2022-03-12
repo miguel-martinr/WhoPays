@@ -11,6 +11,7 @@ export interface WhoPaysState {
   items: ItemProps[],
   nextPayerId: number,
   nextItemId: number,
+  payerBeingLinkedId: string,
 }
 
 const initialState: WhoPaysState = {
@@ -18,37 +19,38 @@ const initialState: WhoPaysState = {
   items: [],
   nextPayerId: 0,
   nextItemId: 0,
+  payerBeingLinkedId: '',
 };
 
 
 export const whoPaysSlice = createSlice({
   name: 'WhoPays',
   initialState,
-  
+
   reducers: {
     addPayer: (state, action: PayloadAction<PayerProps>) => {
-      let {id, ...rest} = action.payload;
-      
-      state.payers.push({id: `${state.nextPayerId}`, ...rest});
+      let { id, ...rest } = action.payload;
+
+      state.payers.push({ id: `${state.nextPayerId}`, ...rest });
       state.nextPayerId++;
     },
 
     addItem: (state, action: PayloadAction<ItemProps>) => {
-      let {id, ...rest} = action.payload;
-      state.items.push({id: `${state.nextItemId}`, ...rest});
+      let { id, ...rest } = action.payload;
+      state.items.push({ id: `${state.nextItemId}`, ...rest });
       state.nextItemId++;
     },
-    
+
     linkPayerToItem: (state, action: PayloadAction<LinkPayerToItemPayload>) => {
       const { payerName, itemName } = action.payload;
-      
+
       const payer = state.payers.find(p => p.name === payerName);
       const item = state.items.find(i => i.name === itemName);
 
       if (!payer || !item) return;
 
       if (item.linkedPayers.includes(payer.name)) return;
-    
+
       item.linkedPayers.push(payer.name);
       payer.linkedItems.push(item.name);
 
@@ -69,13 +71,18 @@ export const whoPaysSlice = createSlice({
       const indexOfItem = state.items.findIndex(i => i.id === action.payload.id);
       if (indexOfItem === -1) throw new ItemNotFoundError(action.payload.id);
       state.items.splice(indexOfItem, 1, action.payload);
-    }
+    },
+
+    linkItemsToPayer: (state, action: PayloadAction<string>) => {
+      state.payerBeingLinkedId = action.payload;
+    },
   },
 });
 
-export const { linkPayerToItem, 
-  addPayer, 
-  addItem, 
+export const { linkPayerToItem,
+  addPayer,
+  addItem,
   updatePayer,
-  updateItem } = whoPaysSlice.actions;
+  updateItem,
+  linkItemsToPayer } = whoPaysSlice.actions;
 export default whoPaysSlice.reducer;
