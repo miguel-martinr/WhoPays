@@ -1,5 +1,5 @@
 
 export interface LinkPayerToItemPayload {
-  payerName: string,
-  itemName: string,
+  payerId: string,
+  itemId: string,
 }
