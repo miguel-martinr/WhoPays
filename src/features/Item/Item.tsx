@@ -1,7 +1,8 @@
-import { Col, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { useAppDispatch } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
 import { updateItem } from '../state/whoPaysSlice';
+import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { NameInput } from '../Utils/NameInput';
 
 
@@ -20,14 +21,14 @@ export const Item = ({ item }: ItemComponentProps) => {
 
     <Row className="ms-5">
       <Col>
-        <button>Link payer</button>
+        <LinkButton text='Link payer' variant='success'/>
       </Col>
       <NameInput
         itemOrPayer={item}
         nameUpdater={updateItem}
       >
         <Col>
-          <input type="number" defaultValue={item.price} onChange={onPriceChange} />
+          <Form.Control type='number' value={item.price} onChange={onPriceChange} />
         </Col>
       </NameInput>
 

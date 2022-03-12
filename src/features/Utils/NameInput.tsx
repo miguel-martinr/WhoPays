@@ -1,10 +1,9 @@
-import { Action, ActionCreatorWithPayload } from '@reduxjs/toolkit';
+import { Action } from '@reduxjs/toolkit';
 import React from 'react'
-import { Col } from 'react-bootstrap';
+import { Col, Form } from 'react-bootstrap';
 import { useAppDispatch } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
 import { PayerProps } from '../../types/PayerProps';
-import { updateItem } from '../state/whoPaysSlice';
 
 export type Updater = (itemOrPayer: ItemProps | PayerProps) => Action;
 
@@ -26,7 +25,12 @@ export const NameInput = ({ itemOrPayer, nameUpdater, children }: GeneralInputPr
   return (
     <>
       <Col>
-        <input type="text" defaultValue={itemOrPayer.name} onChange={onNameChange} />
+        <Form.Control
+          type="text"
+          placeholder="Name"
+          onChange={onNameChange}
+          defaultValue={itemOrPayer.name}
+        />
       </Col>
       {children}
     </>
