@@ -4,6 +4,7 @@ import { updatePayer } from '../state/whoPaysSlice';
 import { AdaptiveButton } from '../Utils/Buttons/AdaptiveButton';
 import { NameInput } from '../Utils/NameInput';
 import { BsLink } from 'react-icons/bs';
+import { LinkButton } from '../Utils/Buttons/LinkButton';
 
 export interface PayerComponentProps {
   payer: PayerProps,
@@ -24,11 +25,7 @@ export const Payer = ({ payer }: PayerComponentProps) => {
         </Col>
       </NameInput>
       <Col>
-        <AdaptiveButton 
-          
-          contentWhenSM={<BsLink size={20}/>} 
-          contentWhenLG='Link payer'
-        />
+        <LinkButton text='Link item'/>
       </Col>
     </Row>
   )

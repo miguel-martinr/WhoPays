@@ -61,7 +61,7 @@ function App() {
         <Row className='mt-4'>
           {/* Payers */}
           <Col>
-            <Row>
+            <Row className='me-5'>
               <Col className="text-center">Name</Col>
               <Col className="text-center" >Pays</Col>
               <Col></Col>
@@ -70,7 +70,7 @@ function App() {
 
           {/* Items */}
           <Col>
-            <Row>
+          <Row className='ms-5'>
               <Col></Col>
               <Col className="text-center">Name</Col>
               <Col className="text-center" >Price</Col>

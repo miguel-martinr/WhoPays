@@ -8,11 +8,12 @@ export interface LinkButtonProps extends ButtonProps {
 
 export const LinkButton = (props: LinkButtonProps) => {
 
-  const { text, children } = props;
+  const { text, children, ...rest } = props;
   return (
     <AdaptiveButton
       contentWhenSM={<BsLink size={20} />}
       contentWhenLG={text}
+      {...rest}
     >
 
       {children}
