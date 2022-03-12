@@ -31,7 +31,8 @@ export const Item = ({ item }: ItemComponentProps) => {
       <Col>
         {
           !payerBeingLinkedId ?
-            <LinkButton text='Link payer' variant='success' /> :
+            // <LinkButton text='Link payer' variant='success' /> :
+            <span className='h5'>{item.linkedPayers.length} payers</span> :
             <Form.Check
               type='checkbox'
               onChange={onCheckboxChange}
