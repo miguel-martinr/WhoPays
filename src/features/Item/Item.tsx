@@ -2,7 +2,6 @@ import { Col, Form, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
 import { linkPayerToItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
-import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { NameInput } from '../Utils/NameInput';
 
 
