@@ -57,6 +57,7 @@ function App() {
           {/* Items */}
           <Col className='text-center'>
             <AddButton
+              variant = 'success'
               onClick={addItemHandler}
             />
           </Col>
