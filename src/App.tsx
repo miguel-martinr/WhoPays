@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import './App.css';
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useBSSize } from './app/hooks';
 import { ItemsList } from './features/Item/ItemsList';
 import { PayersList } from './features/Payer/PayersList';
 import { addItem, addPayer } from './features/state/whoPaysSlice';
@@ -17,15 +17,7 @@ function App() {
   const defaultPayerProps = { name: '', ammountToPay: 0, linkedItems: [], id: 'EMPTY_PAYER' };
   const defaultItemProps = { name: '', price: 0, linkedPayers: [], id: 'EMPTY_ITEM' }
   
-  const [state, setState] = useState({bsSize: getBSSize()});
-
-  useEffect(() => {
-    const resizeListener = () => {
-      setState({bsSize: getBSSize()})
-    }
-    window.addEventListener('resize', resizeListener);
-    return () => window.removeEventListener('resize', resizeListener);
-  }, []);
+  const bsSize = useBSSize();
 
   const addPayerHandler = () => {
     dispatch(addPayer(defaultPayerProps));
@@ -35,7 +27,7 @@ function App() {
     dispatch(addItem(defaultItemProps));
   }
 
-  const showListsNames = state.bsSize !== 'sm' && state.bsSize !== 'xs';
+  const showListsNames = bsSize !== 'sm' && bsSize !== 'xs';
   const buttonsMargin = showListsNames ? 'mb-4' : 'mb-3';
 
 

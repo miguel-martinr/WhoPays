@@ -3,7 +3,8 @@ import { PayerProps } from '../../types/PayerProps';
 import { setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
 import { NameInput } from '../Utils/NameInput';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector, useSmallDisplay } from '../../app/hooks';
+import { ResponsiveRow } from '../Utils/ResponsiveRow';
 
 export interface PayerComponentProps {
   payer: PayerProps,
@@ -30,9 +31,11 @@ export const Payer = ({ payer }: PayerComponentProps) => {
     return dispatch(setPayerBeingLinked(''));
   }
 
+  const idDisplaySmall = useSmallDisplay();
 
   return (
-    <Row>
+
+    <ResponsiveRow>
       <NameInput
         itemOrPayer={payer}
         nameUpdater={updatePayer}
@@ -47,6 +50,7 @@ export const Payer = ({ payer }: PayerComponentProps) => {
           text={payerBeingLinkedId === payer.id ? 'Ok' : 'Link items'}
           onClick={linkHandler} />
       </Col>
-    </Row>
+    </ResponsiveRow>
+
   )
 }

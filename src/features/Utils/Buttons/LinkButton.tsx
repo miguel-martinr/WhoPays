@@ -11,7 +11,7 @@ export const LinkButton = (props: LinkButtonProps) => {
   const { text, children, ...rest } = props;
   return (
     <AdaptiveButton
-      contentWhenSM={<BsLink size={20} />}
+      contentWhenSM={text}
       contentWhenLG={text}
       {...rest}
     >
