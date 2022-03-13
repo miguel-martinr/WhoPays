@@ -32,7 +32,7 @@ export const Payer = ({ payer }: PayerComponentProps) => {
 
 
   return (
-    <Row className="me-5">
+    <Row>
       <NameInput
         itemOrPayer={payer}
         nameUpdater={updatePayer}

@@ -26,7 +26,7 @@ export const Item = ({ item }: ItemComponentProps) => {
   }
   return (
 
-    <Row className="ms-5">
+    <Row>
       <Col>
         {
           !payerBeingLinkedId ?
