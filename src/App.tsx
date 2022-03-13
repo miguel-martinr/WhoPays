@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import './App.css';
 import { useAppDispatch, useBSSize } from './app/hooks';
@@ -6,7 +5,7 @@ import { ItemsList } from './features/Item/ItemsList';
 import { PayersList } from './features/Payer/PayersList';
 import { addItem, addPayer } from './features/state/whoPaysSlice';
 import { AddButton } from './features/Utils';
-import { getBSSize } from './features/Utils/ScreenSizeBreakPoints';
+
 
 
 
