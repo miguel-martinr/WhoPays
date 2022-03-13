@@ -1,5 +1,4 @@
 import { ButtonProps } from 'react-bootstrap'
-import { BsLink } from 'react-icons/bs';
 import { AdaptiveButton } from './AdaptiveButton'
 
 export interface LinkButtonProps extends ButtonProps {
