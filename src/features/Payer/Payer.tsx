@@ -1,6 +1,6 @@
 import { Col, Form, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
-import { setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
+import { removePayer, setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
 import { NameInput } from '../Utils/NameInput';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
@@ -33,6 +33,10 @@ export const Payer = ({ payer }: PayerComponentProps) => {
     return dispatch(setPayerBeingLinked(''));
   }
 
+  const removeHandler = () => {
+    dispatch(removePayer(payer.id))
+  }
+
   return (
 
     <ResponsiveRow>
@@ -53,7 +57,7 @@ export const Payer = ({ payer }: PayerComponentProps) => {
               onClick={linkHandler} />
           </Col>
           <Col xs={3} sm={2} className='ps-0 pe-4'>
-            <TrashButton />
+            <TrashButton onClick={removeHandler}/>
           </Col>
         </Row>
       </Col>
@@ -63,3 +67,5 @@ export const Payer = ({ payer }: PayerComponentProps) => {
 
   )
 }
+
+
