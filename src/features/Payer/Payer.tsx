@@ -1,10 +1,12 @@
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, CloseButton, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
 import { setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
 import { NameInput } from '../Utils/NameInput';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { ResponsiveRow } from '../Utils/ResponsiveRow';
+import { TrashButton } from '../Utils/Buttons/TrashButton';
+
 
 export interface PayerComponentProps {
   payer: PayerProps,
@@ -43,11 +45,20 @@ export const Payer = ({ payer }: PayerComponentProps) => {
         </Col>
       </NameInput>
       <Col>
-        <LinkButton
-          hidden={!showLinkButton}
-          text={payerBeingLinkedId === payer.id ? 'Ok' : 'Link items'}
-          onClick={linkHandler} />
+        <Row>
+          <Col xs={9} sm={10}>
+            <LinkButton
+              hidden={!showLinkButton}
+              text={payerBeingLinkedId === payer.id ? 'Ok' : 'Link'}
+              onClick={linkHandler} />
+          </Col>
+          <Col xs={3} sm={2} className='ps-0 pe-4'>
+            <TrashButton />
+          </Col>
+        </Row>
       </Col>
+
+
     </ResponsiveRow>
 
   )

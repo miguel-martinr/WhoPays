@@ -1,8 +1,9 @@
-import { Col, Form } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector, useSmallDisplay } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
 import { linkPayerToItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
+import { TrashButton } from '../Utils/Buttons/TrashButton';
 import { NameInput } from '../Utils/NameInput';
 import { ResponsiveRow } from '../Utils/ResponsiveRow';
 
@@ -35,15 +36,22 @@ export const Item = ({ item }: ItemComponentProps) => {
   }
   const appendix = !payerBeingLinkedId ?
 
-    <LinkButton variant='success' text={getNumOfPayersMessage()}/> :
+    <LinkButton variant='success' text={getNumOfPayersMessage()} /> :
     <Form.Check
       type='checkbox'
       onChange={onCheckboxChange}
       defaultChecked={item.linkedPayers.includes(payerBeingLinkedId)}
     />;
 
-  const left = isDisplaySmall ? '' : <Col>{appendix}</Col>;
-  const right = left ? '' : appendix;
+  const buttons = <Col>
+    <Row>
+      <Col xs={3} sm={2} ><TrashButton /></Col>
+      <Col xs={9} sm={10}>{appendix}</Col>
+    </Row>
+  </Col>;
+
+  const left = isDisplaySmall ? '' : buttons;
+  const right = left ? '' : buttons;
 
   return (
 

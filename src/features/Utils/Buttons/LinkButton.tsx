@@ -1,4 +1,4 @@
-import { ButtonProps } from 'react-bootstrap'
+import { Button, ButtonProps, CloseButton } from 'react-bootstrap'
 import { AdaptiveButton } from './AdaptiveButton'
 
 export interface LinkButtonProps extends ButtonProps {
@@ -14,7 +14,6 @@ export const LinkButton = (props: LinkButtonProps) => {
       contentWhenLG={text}
       {...rest}
     >
-
       {children}
     </AdaptiveButton>
   )
