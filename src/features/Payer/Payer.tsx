@@ -1,4 +1,4 @@
-import { Col, Form, CloseButton, Row } from 'react-bootstrap';
+import { Col, Form, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
 import { setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
 import { NameInput } from '../Utils/NameInput';

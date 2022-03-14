@@ -1,4 +1,4 @@
-import { Button, ButtonProps, CloseButton } from 'react-bootstrap'
+import { ButtonProps } from 'react-bootstrap'
 import { AdaptiveButton } from './AdaptiveButton'
 
 export interface LinkButtonProps extends ButtonProps {
