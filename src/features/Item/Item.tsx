@@ -1,7 +1,7 @@
 import { Col, Form, Row } from 'react-bootstrap';
 import { useAppDispatch, useAppSelector, useSmallDisplay } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
-import { linkPayerToItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
+import { linkPayerToItem, removeItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { TrashButton } from '../Utils/Buttons/TrashButton';
 import { NameInput } from '../Utils/NameInput';
@@ -34,6 +34,11 @@ export const Item = ({ item }: ItemComponentProps) => {
     const numOfPayers = item.linkedPayers.length;
     return numOfPayers + ' payer' + (numOfPayers > 1 ? 's' : '');
   }
+
+  const removeHandler = () => {
+    dispatch(removeItem(item.id));
+  }
+
   const appendix = !payerBeingLinkedId ?
 
     <LinkButton variant='success' text={getNumOfPayersMessage()} /> :
@@ -45,7 +50,7 @@ export const Item = ({ item }: ItemComponentProps) => {
 
   const buttons = <Col>
     <Row>
-      <Col xs={3} sm={2} ><TrashButton /></Col>
+      <Col xs={3} sm={2} ><TrashButton onClick={removeHandler}/></Col>
       <Col xs={9} sm={10}>{appendix}</Col>
     </Row>
   </Col>;
