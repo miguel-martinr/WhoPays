@@ -1,10 +1,11 @@
 import { Col, Container, Row } from 'react-bootstrap';
 import './App.css';
-import { useAppDispatch } from './app/hooks';
+import { useAppDispatch, useBSSize } from './app/hooks';
 import { ItemsList } from './features/Item/ItemsList';
 import { PayersList } from './features/Payer/PayersList';
 import { addItem, addPayer } from './features/state/whoPaysSlice';
 import { AddButton } from './features/Utils';
+
 
 
 
@@ -13,8 +14,9 @@ function App() {
   const dispatch = useAppDispatch();
 
   const defaultPayerProps = { name: '', ammountToPay: 0, linkedItems: [], id: 'EMPTY_PAYER' };
-  const defaultItemProps = { name: '', price: 0, linkedPayers: [], id: 'EMPTY_ITEM' };
-
+  const defaultItemProps = { name: '', price: 0, linkedPayers: [], id: 'EMPTY_ITEM' }
+  
+  const bsSize = useBSSize();
 
   const addPayerHandler = () => {
     dispatch(addPayer(defaultPayerProps));
@@ -23,6 +25,9 @@ function App() {
   const addItemHandler = () => {
     dispatch(addItem(defaultItemProps));
   }
+
+  const showListsNames = bsSize !== 'sm' && bsSize !== 'xs';
+  const buttonsMargin = showListsNames ? 'mb-4' : 'mb-3';
 
 
   return (
@@ -40,7 +45,7 @@ function App() {
         </Row>
 
         {/* Buttons */}
-        <Row>
+        <Row className={buttonsMargin}>
           {/* Payers */}
           <Col className='text-center'>
             <AddButton
@@ -52,28 +57,29 @@ function App() {
           {/* Items */}
           <Col className='text-center'>
             <AddButton
+              variant = 'success'
               onClick={addItemHandler}
             />
           </Col>
         </Row>
 
         {/* Lists names */}
-        <Row className='mt-4'>
+        <Row hidden={!showListsNames}>
           {/* Payers */}
           <Col>
-            <Row className='me-5'>
-              <Col className="text-center">Name</Col>
+            <Row>
+              {/* <Col className="text-center">Name</Col> */}
               <Col className="text-center" >Pays</Col>
-              <Col></Col>
+              {/* <Col></Col> */}
             </Row>
           </Col>
 
           {/* Items */}
           <Col>
-          <Row className='ms-5'>
-              <Col></Col>
-              <Col className="text-center">Name</Col>
-              <Col className="text-center" >Price</Col>
+          <Row>
+              {/* <Col></Col> */}
+              {/* <Col className="text-center">Name</Col> */}
+              <Col sm={4} className="text-center offset-sm-8" >Price</Col>
             </Row>
 
           </Col>

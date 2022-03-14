@@ -1,8 +1,11 @@
 import { Col, Form, Row } from 'react-bootstrap';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { useAppDispatch, useAppSelector, useSmallDisplay } from '../../app/hooks';
 import { ItemProps } from '../../types/ItemProps';
-import { linkPayerToItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
+import { linkPayerToItem, removeItem, unlinkPayerFromItem, updateItem } from '../state/whoPaysSlice';
+import { LinkButton } from '../Utils/Buttons/LinkButton';
+import { TrashButton } from '../Utils/Buttons/TrashButton';
 import { NameInput } from '../Utils/NameInput';
+import { ResponsiveRow } from '../Utils/ResponsiveRow';
 
 
 export interface ItemComponentProps {
@@ -24,21 +27,41 @@ export const Item = ({ item }: ItemComponentProps) => {
       dispatch(unlinkPayerFromItem({ itemId: item.id, payerId: payerBeingLinkedId }));
     }
   }
+
+  const isDisplaySmall = useSmallDisplay();
+
+  const getNumOfPayersMessage = () => {
+    const numOfPayers = item.linkedPayers.length;
+    return numOfPayers + ' payer' + (numOfPayers > 1 ? 's' : '');
+  }
+
+  const removeHandler = () => {
+    dispatch(removeItem(item.id));
+  }
+
+  const appendix = !payerBeingLinkedId ?
+
+    <LinkButton variant='success' text={getNumOfPayersMessage()} /> :
+    <Form.Check
+      type='checkbox'
+      onChange={onCheckboxChange}
+      defaultChecked={item.linkedPayers.includes(payerBeingLinkedId)}
+    />;
+
+  const buttons = <Col>
+    <Row>
+      <Col xs={3} sm={2} ><TrashButton onClick={removeHandler}/></Col>
+      <Col xs={9} sm={10}>{appendix}</Col>
+    </Row>
+  </Col>;
+
+  const left = isDisplaySmall ? '' : buttons;
+  const right = left ? '' : buttons;
+
   return (
 
-    <Row className="ms-5">
-      <Col>
-        {
-          !payerBeingLinkedId ?
-            // <LinkButton text='Link payer' variant='success' /> :
-            <span className='h5'>{item.linkedPayers.length} payers</span> :
-            <Form.Check
-              type='checkbox'
-              onChange={onCheckboxChange}
-              defaultChecked={item.linkedPayers.includes(payerBeingLinkedId)}
-            />
-        }
-      </Col>
+    <ResponsiveRow >
+      {left}
       <NameInput
         itemOrPayer={item}
         nameUpdater={updateItem}
@@ -47,7 +70,7 @@ export const Item = ({ item }: ItemComponentProps) => {
           <Form.Control type='number' value={item.price} onChange={onPriceChange} />
         </Col>
       </NameInput>
-
-    </Row>
+      {right}
+    </ResponsiveRow>
   )
 }

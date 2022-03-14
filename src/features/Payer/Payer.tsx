@@ -1,9 +1,12 @@
 import { Col, Form, Row } from 'react-bootstrap';
 import { PayerProps } from '../../types/PayerProps';
-import { setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
+import { removePayer, setPayerBeingLinked, updatePayer } from '../state/whoPaysSlice';
 import { NameInput } from '../Utils/NameInput';
 import { LinkButton } from '../Utils/Buttons/LinkButton';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { ResponsiveRow } from '../Utils/ResponsiveRow';
+import { TrashButton } from '../Utils/Buttons/TrashButton';
+
 
 export interface PayerComponentProps {
   payer: PayerProps,
@@ -30,9 +33,13 @@ export const Payer = ({ payer }: PayerComponentProps) => {
     return dispatch(setPayerBeingLinked(''));
   }
 
+  const removeHandler = () => {
+    dispatch(removePayer(payer.id))
+  }
 
   return (
-    <Row className="me-5">
+
+    <ResponsiveRow>
       <NameInput
         itemOrPayer={payer}
         nameUpdater={updatePayer}
@@ -42,11 +49,23 @@ export const Payer = ({ payer }: PayerComponentProps) => {
         </Col>
       </NameInput>
       <Col>
-        <LinkButton
-          hidden={!showLinkButton}
-          text={payerBeingLinkedId === payer.id ? 'Ok' : 'Link items'}
-          onClick={linkHandler} />
+        <Row>
+          <Col xs={9} sm={10}>
+            <LinkButton
+              hidden={!showLinkButton}
+              text={payerBeingLinkedId === payer.id ? 'Ok' : 'Link'}
+              onClick={linkHandler} />
+          </Col>
+          <Col xs={3} sm={2} className='ps-0 pe-4'>
+            <TrashButton onClick={removeHandler}/>
+          </Col>
+        </Row>
       </Col>
-    </Row>
+
+
+    </ResponsiveRow>
+
   )
 }
+
+

@@ -97,6 +97,42 @@ export const whoPaysSlice = createSlice({
     setPayerBeingLinked: (state, action: PayloadAction<string>) => {
       state.payerBeingLinkedId = action.payload;
     },
+
+    removePayer: (state, action: PayloadAction<string>) => { 
+      const indexOfPayer = state.payers.findIndex(p => p.id === action.payload);
+      if (indexOfPayer === -1) throw new PayerNotFoundError(action.payload);
+      const payer = state.payers[indexOfPayer];
+     
+      // Unlink each item from the payer
+      payer.linkedItems.forEach(itemId => {
+        const indexOfItem = state.items.findIndex(i => i.id === itemId);
+        if (indexOfItem === -1) throw new ItemNotFoundError(itemId); 
+
+        const item = state.items[indexOfItem];        
+        item.linkedPayers = item.linkedPayers.filter(id => id !== payer.id);
+        state.items[indexOfItem] = item;
+      });
+
+      state.payers.splice(indexOfPayer, 1);
+    },
+
+    removeItem: (state, action: PayloadAction<string>) => { 
+      const indexOfItem = state.items.findIndex(i => i.id === action.payload);
+      if (indexOfItem === -1) throw new ItemNotFoundError(action.payload);
+      const item = state.items[indexOfItem];
+     
+      // Unlink each payer from the item
+      item.linkedPayers.forEach(payerId => {
+        const indexOfPayer = state.payers.findIndex(p => p.id === payerId);
+        if (indexOfPayer === -1) throw new PayerNotFoundError(payerId); 
+
+        const payer = state.payers[indexOfPayer];        
+        payer.linkedItems = payer.linkedItems.filter(id => id !== item.id);
+        state.payers[indexOfPayer] = payer;
+      });
+
+      state.items.splice(indexOfItem, 1);
+    },
   },
 });
 
@@ -106,7 +142,7 @@ export const { linkPayerToItem,
   updatePayer,
   updateItem,
   setPayerBeingLinked,
-
-
-  unlinkPayerFromItem } = whoPaysSlice.actions;
+  removePayer,
+  unlinkPayerFromItem,
+  removeItem } = whoPaysSlice.actions;
 export default whoPaysSlice.reducer;

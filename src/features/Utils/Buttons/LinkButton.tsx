@@ -1,5 +1,4 @@
 import { ButtonProps } from 'react-bootstrap'
-import { BsLink } from 'react-icons/bs';
 import { AdaptiveButton } from './AdaptiveButton'
 
 export interface LinkButtonProps extends ButtonProps {
@@ -11,11 +10,10 @@ export const LinkButton = (props: LinkButtonProps) => {
   const { text, children, ...rest } = props;
   return (
     <AdaptiveButton
-      contentWhenSM={<BsLink size={20} />}
+      contentWhenSM={text}
       contentWhenLG={text}
       {...rest}
     >
-
       {children}
     </AdaptiveButton>
   )
